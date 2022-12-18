@@ -1,6 +1,7 @@
 const express = require("express");
 const logs = express.Router();
 const logsArray = require("../models/log");
+const { validateLog } = require("../models/validations");
 
 logs.get("/", (req, res) => {
   const { order, mistakes, lastCrisis } = req.query;
@@ -57,7 +58,7 @@ logs.get("/:id", (req, res) => {
 });
 
 // CREATE
-logs.post("/", (req, res) => {
+logs.post("/", validateLog, (req, res) => {
   logsArray.push(req.body);
   res.json(logsArray[logsArray.length - 1]);
 });
