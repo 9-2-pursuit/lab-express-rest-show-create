@@ -1,10 +1,19 @@
 const express = require("express");
 const logs = express.Router();
-
+const operations = require("./operations");
 const logsArr = require("../models/log");
 
 logs.get("/", (req, res) => {
-  res.json(logsArr);
+  const query = req.query;
+
+  // if there is no query, return logs
+  if (!Object.keys(query).length) {
+    res.json(logsArr);
+  }
+
+  // if there is query, invoke relevant function return result
+  const result = operations[Object.keys(query)[0]](Object.values(query)[0]);
+  res.json(result);
 });
 
 logs.post("/", (req, res) => {
