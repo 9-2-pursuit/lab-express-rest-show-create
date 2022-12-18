@@ -13,11 +13,18 @@ function validateLog(req, res, next) {
     typeof req.body.title === titleType &&
     typeof req.body.post === postType &&
     typeof req.body.mistakesWereMadeToday === mistakesWereMadeTodayType &&
-    typeof req.body.daysSinceLastCrisis === daysSinceLastCrisisType
+    typeof Number(req.body.daysSinceLastCrisis) === daysSinceLastCrisisType
   ) {
     next();
   } else {
-    res.status(406).json({ error: "Incorrect data type inputted, try again" });
+    res.status(406).json({
+      error: "Incorrect data type inputted, try again",
+      captainNameType: typeof req.body.captainName,
+      titleType: typeof req.body.title,
+      postType: typeof req.body.post,
+      mistakeType: typeof req.body.mistakesWereMadeToday,
+      lastCrisisType: typeof req.body.daysSinceLastCrisis,
+    });
   }
 }
 
