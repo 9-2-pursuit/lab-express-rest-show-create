@@ -38,7 +38,7 @@ module.exports = [
       captainName: "Ahab",
       title: "What is sleep?",
       post: "Sleep? That bed is a coffin, and those are winding sheets. I do not sleep, I die.",
-      mistakesWereMadeToday: true,
+      mistakesWereMadeToday: false,
       daysSinceLastCrisis: 5,
     },
     {
