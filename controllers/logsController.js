@@ -1,7 +1,7 @@
 const express = require("express");
 const logs = express.Router();
 const logsArray = require("../models/log.js");
-const { validateURL } = require("../models/validations.js");
+const { validateURL, validateDataType } = require("../models/validations.js");
 
 // logs.get("/", (req, res) => {
 //     res.json(logsArray)
@@ -53,7 +53,7 @@ logs.get("/:arrayIndex", (req, res) => {
   }
 });
 
-logs.post("/", validateURL, (req, res) => {
+logs.post("/", validateURL, validateDataType, (req, res) => {
   logsArray.push(req.body);
   res.json(logsArray[logsArray.length - 1]);
 });
