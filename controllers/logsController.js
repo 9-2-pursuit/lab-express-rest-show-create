@@ -33,4 +33,8 @@ res.json(logArray.splice(index, 1))
 
 });
 
+logs.get("/order", (req, res) => {
+    
+})
+
 module.exports = logs;
