@@ -63,4 +63,10 @@ logs.post("/", validateLog, (req, res) => {
   res.json(logsArray[logsArray.length - 1]);
 });
 
+// DELETE
+logs.delete("/:id", (req, res) => {
+  const deletedLog = logsArray.splice(req.params.id, 1);
+  res.json(deletedLog);
+});
+
 module.exports = logs;
