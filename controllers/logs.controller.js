@@ -68,25 +68,19 @@ logs.get("/:id", ( q, s )=>{
 })
 
 logs.post("/", ( q, s )=>{
-
-  if(typeof q.body==="object")
-  {
-    if(verify_data(q.body)){
-      logs_data.push(q.body);
-      s.status(303).send("record created");  
-    }
-    else
-    {
-      s.status(500).send("data type error");  
-    }
+  
+  if(verify_data(q.body)){
+    logs_data.push(q.body);
+    s.status(303).json(logs_data);
   }
   else
   {
-    s.send("something wrong with the record you posted");
+    s.status(500).send("data type error");  
   }
+  
 })
 
-logs.delete("/", ( q, s )=>{
+logs.delete("/:id", ( q, s )=>{
   const {id} = q.params;
   if(logs_data[id])
   {
@@ -105,29 +99,23 @@ logs.put("/", ( q, s )=>{
   const {id} = q.params;
   if(logs_data[id]&&verify_data(q.body))
   {
+    
     logs_data[id]=q.body;
     s.send(`index ${id} replaced`);
   }
   else
   {
     s.status(304).send("invaild data");
-
   }
 })
 
 function verify_data(body)
 {
-  if( 
-    typeof body.captainName === "string"&&
-    typeof body.title === "string"&&
-    typeof body.post === "string"&&
-    typeof body.mistakesWereMadeToday === "boolean"&&
-    typeof body.daysSinceLastCrisis === "number"
-  )
-  {
-    return true;
-  }
-  return false
+  return typeof body.captainName === "string"&&
+  typeof body.title === "string"&&
+  typeof body.post === "string"&&
+  typeof body.mistakesWereMadeToday === "boolean"&&
+  !Number.isNaN(Number(body.daysSinceLastCrisis))  
 }
 
 

@@ -39,7 +39,7 @@ describe("logs", () => {
             .expect("statusCode", 303)
             .end(resolve);
         });
-        console.log(logsArray.length);
+
         expect(logsArray[newLastArrayPosition]).toEqual(newLog);
       });
     });
