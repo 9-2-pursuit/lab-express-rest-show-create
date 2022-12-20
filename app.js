@@ -1,5 +1,6 @@
 const express = require("express");
 const logsController = require("./controllers/logsController.js");
+const logsControllerV2 = require("./v2/controllers/logsController");
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/logs", logsController);
+
+app.use("/v2/logs", logsControllerV2);
 
 app.get("*", (req, res) => {
   res.status(404).json({ error: "Page not found" });

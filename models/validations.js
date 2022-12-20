@@ -1,3 +1,5 @@
+const logsArray = require("./log");
+
 const validateURL = (req, res, next) => {
   if (req.secure || req.protocol) {
     return next();
@@ -20,4 +22,12 @@ const validateDataType = (req, res, next) => {
   }
 };
 
-module.exports = { validateURL, validateDataType };
+const checkExists = (req, res, next) => {
+  if (logsArray[req.params.indexArray]) {
+    next();
+  } else {
+    res.status(404).json({ error: "Element at given index not found." });
+  }
+};
+
+module.exports = { validateURL, validateDataType, checkExists };

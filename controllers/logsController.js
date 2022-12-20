@@ -1,7 +1,11 @@
 const express = require("express");
 const logs = express.Router();
 const logsArray = require("../models/log.js");
-const { validateURL, validateDataType } = require("../models/validations.js");
+const {
+  validateURL,
+  validateDataType,
+  checkExists,
+} = require("../models/validations.js");
 
 logs.get("/", (req, res) => {
   let logsArrayCopy = [...logsArray];
@@ -44,13 +48,11 @@ logs.get("/NotFound", (req, res) => {
   res.send("<h1>The index you have inputted is Not Found!!</h1>");
 });
 
-logs.get("/:arrayIndex", (req, res) => {
-  if (logsArray[req.params.arrayIndex]) {
-    res.json(logsArray[req.params.arrayIndex]);
-  } else {
-    res.redirect("/logs/NotFound");
-    res.status(404);
-  }
+logs.get("/:indexArray", (req, res) => {
+  logsArray[req.params.indexArray]
+    ? res.json(logsArray[req.params.indexArray])
+    : res.redirect("/logs/NotFound");
+  res.status(404);
 });
 
 logs.post("/", validateURL, validateDataType, (req, res) => {
@@ -58,22 +60,20 @@ logs.post("/", validateURL, validateDataType, (req, res) => {
   res.json(logsArray[logsArray.length - 1]);
 });
 
-logs.delete("/:indexArray", (req, res) => {
-  if (logsArray[req.params.indexArray]) {
-    const deletedLog = logsArray.splice(req.params.indexArray, 1);
-    res.status(200).json(deletedLog);
-  } else {
-    res.status(404).json({ error: "Not Found" });
-  }
+logs.delete("/:indexArray", checkExists, (req, res) => {
+  const deletedLog = logsArray.splice(req.params.indexArray, 1);
+  res.status(200).json(deletedLog);
 });
 
-logs.put("/:arrayIndex", validateURL, validateDataType, async (req, res) => {
-  if (logsArray[req.params.arrayIndex]) {
-    logsArray[req.params.arrayIndex] = req.body;
-    res.status(200).json(logsArray[req.params.arrayIndex]);
-  } else {
-    res.status(404).json({ error: "Not Found" });
+logs.put(
+  "/:indexArray",
+  validateURL,
+  validateDataType,
+  checkExists,
+  async (req, res) => {
+    logsArray[req.params.indexArray] = req.body;
+    res.status(200).json(logsArray[req.params.indexArray]);
   }
-});
+);
 
 module.exports = logs;
