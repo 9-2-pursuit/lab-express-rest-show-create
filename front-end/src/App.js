@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import logo from "./logo.svg";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
+import Home from "./components/Home.jsx";
+import Log from "./components/Log.jsx";
 
 function App() {
   const [logs, setLogs] = useState(null);
+
   useEffect(() => {
     fetch("/logs")
       .then((res) => res.json())
@@ -12,14 +16,12 @@ function App() {
   console.log(logs);
   return (
     <div className="App">
-      {logs &&
-        logs.map((log, i) => (
-          <div>
-            <h1>{log.title}</h1>
-            <p>{log.post}</p>
-            <a href={"/logs/" + i}>go to log</a>
-          </div>
-        ))}
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home logs={logs} />} />
+          <Route path="/log/:index" element={<Log />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
