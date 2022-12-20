@@ -2,29 +2,39 @@ const express = require("express");
 
 const wood = express.Router();
 
-const logArray = require("../models/log.js");
+const logsArray = require("../models/log.js");
 
 const { validateURL } = require("../models/validations.js");
 
 //send data
 wood.get("/", (req, res) => {
-  res.json(logArray);
+  res.json(logsArray);
 });
 
-wood.get("/:arrayIndex", (req, res) => {
-  const { arrayIndex } = req.params;
-  const element = logArray[Number(arrayIndex) - 1];
-  if (element) {
-    res.json(element);
+//Show
+wood.get("/:indexOfArray", validateURL, (req, res) => {
+  const { indexOfArray } = req.params;
+  console.log(logsArray);
+  if (logsArray[indexOfArray]) {
+    res.send(logsArray[Number(indexOfArray)]);
   } else {
-    res.status(404).json({ error: "Log at given index not Found" });
+    res.redirect("/");
   }
 });
-
 //Create
 wood.post("/", validateURL, (req, res) => {
-  logArray.push(req.body);
-  res.json(logArray[logArray.length - 1]);
+  logsArray.push(req.body);
+  res.json(logsArray[logsArray.length - 1]);
 });
+
+//Delete
+// DELETE
+wood.delete("/:indexOfArray", (req, res) => {
+  const deletedLog = logsArray.splice(req.params.indexOfArray, 1);
+  res.status(200).json(deletedLog);
+});
+
+
+
 
 module.exports = wood;
