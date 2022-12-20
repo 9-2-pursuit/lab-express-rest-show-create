@@ -14,7 +14,7 @@ v2Logs.get("/", (req, res) => {
 
 v2Logs.get("/:index", (req, res) => {
   const { index } = req.params;
-  res.send(logs[index]);
+  res.render("pages/log", { log: logs[index] });
 });
 
 module.exports = v2Logs;

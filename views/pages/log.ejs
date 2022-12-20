@@ -12,15 +12,9 @@
         <p>Welcome to templating using EJS</p>
       </div>
       <div>
-        <ul>
-          <% logs.forEach(function(log,index) { %>
-          <li>
-            <strong><%= log.captainName %></strong>
-            title <%= log.title %>, post <%= log.post %>
-            <a href="logs/<%= index %>"> Read more...</a>
-          </li>
-          <% }); %>
-        </ul>
+        <h1><%= log.captainName %></h1>
+        title <%= log.title %>, post <%= log.post %>
+        <a href="/v2/logs"><button>Back to Home</button></a>
       </div>
     </main>
 
