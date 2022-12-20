@@ -9,7 +9,7 @@ v2Logs.get("/", (req, res) => {
     ${log.title}</a>`
     )
     .join("\n");
-  res.send(html);
+  res.render("pages/home", { logs });
 });
 
 v2Logs.get("/:index", (req, res) => {

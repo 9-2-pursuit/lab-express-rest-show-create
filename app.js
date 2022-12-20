@@ -5,6 +5,7 @@ const logsController = require("./controllers/logsController");
 const v2LogsController = require("./v2/controllers/logsController");
 
 app.use(express.json());
+app.set("view engine", "ejs");
 app.use("/logs", logsController);
 app.use("/v2/logs", v2LogsController);
 
