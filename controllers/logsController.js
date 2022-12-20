@@ -6,15 +6,15 @@ const validate = require("../models/validate");
 
 logs.get("/", (req, res) => {
   const query = req.query;
-
+  console.log(query);
   // if there is no query, return logs
   if (!Object.keys(query).length) {
     res.json(logsArr);
+  } else {
+    // if there is query, invoke relevant function return result
+    const result = operations[Object.keys(query)[0]](Object.values(query)[0]);
+    res.json(result);
   }
-
-  // if there is query, invoke relevant function return result
-  const result = operations[Object.keys(query)[0]](Object.values(query)[0]);
-  res.json(result);
 });
 
 logs.post("/", validate, (req, res) => {
@@ -36,8 +36,9 @@ logs.delete("/:index", (req, res) => {
   if (logsArr[index]) {
     logsArr.splice(index, 1);
     res.json(logsArr);
+  } else {
+    res.redirect("/404");
   }
-  res.redirect("/404");
 });
 
 logs.put("/:index", (req, res) => {
@@ -45,8 +46,9 @@ logs.put("/:index", (req, res) => {
   if (logsArr[index]) {
     logsArr[index] = req.body;
     res.send(logsArr);
+  } else {
+    res.redirect("/404");
   }
-  res.redirect("/404");
 });
 
 module.exports = logs;
