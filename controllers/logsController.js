@@ -39,4 +39,10 @@ logs.delete("/:index", (req, res) => {
   res.json(logsArr);
 });
 
+logs.put("/:index", (req, res) => {
+  const { index } = req.params;
+  logsArr[index] = req.body;
+  res.send(logsArr);
+});
+
 module.exports = logs;
