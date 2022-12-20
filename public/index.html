@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lab x</title>
+  <style>
+    #log-display{
+      display: flex;
+      flex-wrap: wrap;
+    }
+    #log-display li{
+      border: 1px gray solid;
+      margin: 10px;
+      padding: 10px;
+      box-shadow: 5px 5px red ;
+      max-width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <h1>welcome to the captain's log</h1>
+  <form id="checkIndexForm" >
+    <input name="checkIndexID" value="" placeholder="input index">
+    <button>search</button>
+  </form>
+  <div>
+    <div id="log-display"></div>
+  </div>
+</body>
+<script>
+  const check_index = (index,cb)=>{
+    fetch(`logs/${index}`)
+    .then(res=>res.json())
+    .then(data=>{
+      if(index)
+        cb([data])
+      else
+        cb(data)
+    })
+    .catch(error=>{console.log(error)});
+  }
+  const render_logs = (data)=>{  
+    let display = document.querySelector("#log-display");
+    display.innerHTML="";
+
+    data.forEach(el => {
+      let card = document.createElement("li");
+      display.append(card);
+      card.innerHTML=`
+        <p><strong>${el.captainName}</strong></p>
+        <p>${el.title}</p>
+        <p>${el.post}</p>
+      `;
+    });
+  }
+  function oncheck_index_submit(evt){
+    evt.preventDefault();
+    check_index(evt.target.checkIndexID.value, render_logs);
+
+  }
+  document.querySelector("#checkIndexForm").addEventListener("submit",oncheck_index_submit);
+  console.log(document.querySelector("#checkIndexForm"))
+</script>
+</html>
