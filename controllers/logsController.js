@@ -32,17 +32,21 @@ logs.get("/:index", (req, res) => {
 });
 
 logs.delete("/:index", (req, res) => {
-  const index = req.params;
-  console.log(index);
-  logsArr.splice(index, 1);
-  console.log(logsArr.length);
-  res.json(logsArr);
+  const { index } = req.params;
+  if (logsArr[index]) {
+    logsArr.splice(index, 1);
+    res.json(logsArr);
+  }
+  res.redirect("/404");
 });
 
 logs.put("/:index", (req, res) => {
   const { index } = req.params;
-  logsArr[index] = req.body;
-  res.send(logsArr);
+  if (logsArr[index]) {
+    logsArr[index] = req.body;
+    res.send(logsArr);
+  }
+  res.redirect("/404");
 });
 
 module.exports = logs;
