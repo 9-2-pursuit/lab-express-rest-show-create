@@ -14,7 +14,7 @@ wood.get("/", (req, res) => {
 //Show
 wood.get("/:indexOfArray", validateURL, (req, res) => {
   const { indexOfArray } = req.params;
-  console.log(logsArray);
+  // console.log(logsArray);
   if (logsArray[indexOfArray]) {
     res.send(logsArray[Number(indexOfArray)]);
   } else {
