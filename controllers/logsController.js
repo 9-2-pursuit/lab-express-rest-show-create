@@ -17,7 +17,8 @@ logs.get("/", (req, res) => {
   }
 });
 
-logs.post("/", validate, (req, res) => {
+logs.post("/", (req, res) => {
+  console.log(req.body);
   logsArr.push(req.body);
   res.json(logsArr[logsArr.length - 1]);
 });
