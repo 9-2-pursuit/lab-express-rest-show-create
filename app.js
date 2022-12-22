@@ -2,12 +2,14 @@
 const express = require("express");
 const logsController = require("./controllers/logsController");
 const v2LogsController = require("./v2/controllers/logsController");
+const cors = require("cors");
 
 //CONFIGURATION
 const app = express();
 
 // MIDDLEWARE
 app.use(express.json()); // parse incoming JSON
+app.use(cors()); // allow any app to make requests to API
 
 // ROUTES
 app.get("/", (req, res) => {
