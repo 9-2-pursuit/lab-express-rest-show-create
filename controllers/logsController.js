@@ -17,7 +17,7 @@ logs.get("/", (req, res) => {
   }
 });
 
-logs.post("/", (req, res) => {
+logs.post("/", validate, (req, res) => {
   console.log(req.body);
   logsArr.push(req.body);
   res.json(logsArr[logsArr.length - 1]);
@@ -42,7 +42,7 @@ logs.delete("/:index", (req, res) => {
   }
 });
 
-logs.put("/:index", (req, res) => {
+logs.put("/:index", validate, (req, res) => {
   const { index } = req.params;
   if (logsArr[index]) {
     logsArr[index] = req.body;
