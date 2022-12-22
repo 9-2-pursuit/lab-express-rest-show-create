@@ -48,7 +48,10 @@ logs.put("/:index", (req, res) => {
     logsArr[index] = req.body;
     res.send(logsArr);
   } else {
-    res.redirect("/404");
+    // res.redirect("/404");
+    res
+      .status(400)
+      .json({ error: "something went wrong when trying to update" });
   }
 });
 
