@@ -51,8 +51,8 @@ logs.get("/NotFound", (req, res) => {
 logs.get("/:indexArray", (req, res) => {
   logsArray[req.params.indexArray]
     ? res.json(logsArray[req.params.indexArray])
-    : res.redirect("/logs/NotFound");
-  res.status(404);
+    : res.status(404).json({ error: "Log not found." });
+  // : res.status(404).redirect("/logs/NotFound");
 });
 
 logs.post("/", validateURL, validateDataType, (req, res) => {
@@ -68,7 +68,6 @@ logs.delete("/:indexArray", checkExists, (req, res) => {
 logs.put(
   "/:indexArray",
   validateURL,
-  validateDataType,
   checkExists,
   async (req, res) => {
     logsArray[req.params.indexArray] = req.body;

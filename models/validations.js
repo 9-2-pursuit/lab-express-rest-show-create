@@ -13,8 +13,8 @@ const validateDataType = (req, res, next) => {
     typeof req.body.captainName === "string" &&
     typeof req.body.title === "string" &&
     typeof req.body.post === "string" &&
-    typeof req.body.mistakesWereMadeToday === "boolean" &&
-    typeof req.body.daysSinceLastCrisis === "number"
+    typeof req.body.mistakesWereMadeToday === "boolean"
+    // && typeof req.body.daysSinceLastCrisis === "number"
   ) {
     return next();
   } else {
