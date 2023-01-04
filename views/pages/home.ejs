@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../partials/header'); %></header>
+
+    <main>
+      <div class="jumbotron">
+        <h1>This is great</h1>
+        <p>Welcome to templating using EJS</p>
+      </div>
+      <div>
+        <ul>
+          <% logs.forEach(function(log,index) { %>
+          <li>
+            <strong><%= log.captainName %></strong>
+            title <%= log.title %>, post <%= log.post %>
+            <a href="logs/<%= index %>"> Read more...</a>
+          </li>
+          <% }); %>
+        </ul>
+      </div>
+    </main>
+
+    <footer><%- include('../partials/footer'); %></footer>
+  </body>
+</html>
