@@ -5,15 +5,25 @@ const logsArr = require("../models/log");
 const validate = require("../models/validate");
 
 logs.get("/", (req, res) => {
-  const query = req.query;
-  console.log(query);
+  const { order, mistakes, lastCrisis } = req.query;
   // if there is no query, return logs
-  if (!Object.keys(query).length) {
+  if (!order && !mistakes && !lastCrisis) {
     res.json(logsArr);
   } else {
+    let toReturn = logsArr;
+    if (order) {
+      toReturn = operations.order(order, toReturn);
+    }
+    if (mistakes) {
+      toReturn = operations.mistakes(mistakes, toReturn);
+    }
+    if (lastCrisis) {
+      toReturn = operations.lastCrisis(lastCrisis, toReturn);
+    }
     // if there is query, invoke relevant function return result
-    const result = operations[Object.keys(query)[0]](Object.values(query)[0]);
-    res.json(result);
+    // const result = operations[Object.keys(query)[0]](Object.values(query)[0]);
+
+    res.json(toReturn);
   }
 });
 
