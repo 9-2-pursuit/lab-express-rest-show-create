@@ -40,6 +40,8 @@ describe("logs", () => {
             .end(resolve);
         });
 
+        console.log(logsArray[newLastArrayPosition]);
+        console.log(logsArray.length);
         expect(logsArray[newLastArrayPosition]).toEqual(newLog);
       });
     });
