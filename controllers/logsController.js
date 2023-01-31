@@ -2,9 +2,9 @@ const express = require("express");
 const logs = express.Router();
 const logsModel = require("../models/log");
 
+// INDEX
 const logsArr = [...logsModel];
 
-// INDEX
 logs.get("/", (req, res) => {
   const { order, mistakes, lastCrisis } = req.query;
 
@@ -45,8 +45,8 @@ logs.get("/", (req, res) => {
 logs.get("/:id", (req, res) => {
   const { id } = req.params;
 
-  if (logsArr[id]) {
-    res.json(logsArr[id]);
+  if (logsModel[id]) {
+    res.json(logsModel[id]);
   } else {
     res.redirect("/*");
   }
@@ -54,16 +54,16 @@ logs.get("/:id", (req, res) => {
 
 // CREATE
 logs.post("/", (req, res) => {
-  logsArr.push(req.body);
-  res.status(200).json(logsArr[logsArr.length - 1]);
+  logsModel.push(req.body);
+  res.status(200).json(logsModel[logsModel.length - 1]);
 });
 
 // DELETE
 logs.delete("/:id", (req, res) => {
   const { id } = req.params;
 
-  if (logsArr[id]) {
-    const deletedLog = logsArr.splice(id, 1);
+  if (logsModel[id]) {
+    const deletedLog = logsModel.splice(id, 1);
     res.status(200).json(deletedLog);
   } else {
     res.redirect("/*");
@@ -74,9 +74,9 @@ logs.delete("/:id", (req, res) => {
 logs.put("/:id", (req, res) => {
   const { id } = req.params;
 
-  if (logsArr[id]) {
-    logsArr[id] = req.body;
-    res.status(200).json(logsArr[id]);
+  if (logsModel[id]) {
+    logsModel[id] = req.body;
+    res.status(200).json(logsModel[id]);
   } else {
     res.status(404).redirect("/*");
   }
