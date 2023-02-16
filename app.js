@@ -35,11 +35,13 @@ app.get("/logs", (req, res) => {
         (log) => log.daysSinceLastCrisis >= number
       );
     } else if (lastCrisis.startsWith("gt")) {
-      (log) => log.daysSinceLastCrisis > number;
+      logsToSend = logsToSend.filter((log) => log.daysSinceLastCrisis > number);
     } else if (lastCrisis.startsWith("lte")) {
-      (log) => log.daysSinceLastCrisis <= number;
+      logsToSend = logsToSend.filter(
+        (log) => log.daysSinceLastCrisis <= number
+      );
     } else if (lastCrisis.startsWith("lt")) {
-      (log) => log.daysSinceLastCrisis < number;
+      logsToSend = logsToSend.filter((log) => log.daysSinceLastCrisis < number);
     }
   }
   res.send(logsToSend);
