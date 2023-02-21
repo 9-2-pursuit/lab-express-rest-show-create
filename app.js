@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 const logs = require("./models/log.js");
 const v2 = require("./v2/controllers/logsController.js");
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Welcome to Captain's Log");
@@ -52,7 +54,7 @@ app.get("/logs/:logId", (req, res) => {
   const matchingLog = logs[logId];
   if (!matchingLog) {
     res.status(300).redirect("/not-found");
-    // res.status(404).send({ error: "No Log Found" });
+    res.status(404).send({ error: "No Log Found" });
   } else {
     res.send(matchingLog);
   }
@@ -70,10 +72,7 @@ const validateBody = (req, res, next) => {
     res
       .status(400)
       .send({ error: "requires mistakesWereMadeToday as a boolean" });
-  } else if (
-    !log.daysSinceLastCrisis ||
-    typeof log.daysSinceLastCrisis !== "number"
-  ) {
+  } else if (!log.daysSinceLastCrisis && log.daysSinceLastCrisis != 0) {
     res
       .status(400)
       .send({ error: "requires DaysSinceLastCrisis as a valid number" });
@@ -91,20 +90,21 @@ app.use("v2", v2);
 
 app.delete("/logs/:logIndex", (req, res) => {
   const log = logs[req.params.logIndex];
+  console.log(req.params.logIndex);
   if (log) {
     logs.splice(req.params.logIndex, 1);
-    res.redirect("/logs");
+    res.send(log);
   } else {
     res.redirect("/not-found");
   }
 });
 
-app.put("/logs/:logId", (req, res) => {
+app.put("/logs/:logIndex", (req, res) => {
   const log = logs[req.params.logIndex];
 
   if (log) {
     logs[req.params.logIndex] = req.body;
-    res.redirect("/logs");
+    res.send(log);
   } else {
     res.redirect("/not-found");
   }
